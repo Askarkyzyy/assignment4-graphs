@@ -136,23 +136,60 @@ Use Cases:
 
 ---
 
-# Dijkstra’s Algorithm (Bonus Task)
+# Bonus Task — Dijkstra’s Algorithm
 
-Finds the shortest path from a starting vertex to all other vertices in a weighted graph.
+## Description
 
-Steps:
-1. Start from source vertex
-2. Pick the unvisited vertex with smallest distance
-3. Update distances to neighbors
-4. Repeat until all vertices are processed
+Dijkstra’s Algorithm is used to find the shortest path from a single starting vertex to all other vertices in a weighted graph.
 
-Time Complexity:
-- O(V²) using arrays and simple loops
-- No priority queue (min-heap) used
+In this project, the algorithm was implemented using an adjacency list representation of the graph.
 
 ---
 
-# Experimental Results
+## Algorithm Idea
+
+The main idea of Dijkstra’s Algorithm is:
+
+- Start from the source vertex
+- Always choose the unvisited vertex with the smallest known distance
+- Update the distances of its neighbors if a shorter path is found
+- Repeat until all vertices are processed
+
+---
+
+## Steps
+
+1. Initialize all distances as infinity
+2. Set the starting vertex distance to 0
+3. Mark all vertices as unvisited
+4. Repeat:
+    - Select the unvisited vertex with the smallest distance
+    - Mark it as visited
+    - Update distances to all adjacent vertices
+
+---
+
+## Implementation Notes
+
+- The graph uses an adjacency list structure
+- Edge weights are stored in the `Edge` class
+- No priority queue (min-heap) was used
+- A simple array-based implementation was used for learning purposes
+
+---
+
+## Time Complexity
+
+- **O(V²)** — because the algorithm searches for the minimum distance vertex using a simple loop
+- This implementation does not use a priority queue, which would reduce complexity to O((V + E) log V)
+
+Where:
+- V = number of vertices
+- E = number of edges
+
+---
+
+## Experimental Results
 
 | Graph Size | BFS Time (ns) | DFS Time (ns) |
 |------------|---------------|---------------|
@@ -162,21 +199,20 @@ Time Complexity:
 
 ---
 
-# Analysis
+## Analysis
 
-As graph size increases, execution time also increases.
+As the graph size increases, execution time also increases due to the growing number of vertices and edges.
 
-Both BFS and DFS follow O(V + E) complexity.
+Both BFS and DFS have a time complexity of O(V + E), which matches the experimental results.
 
-DFS was sometimes faster due to lower overhead of recursion compared to queue operations.
+DFS was sometimes faster due to lower overhead compared to queue-based BFS.
 
-Graph structure affects traversal order and performance.
+The structure of the graph affects traversal order and performance significantly.
 
 ---
 
-# Dijkstra Output Example
+## Output Example
 
-```text
 Shortest distances from vertex 0:
 0 -> 0 = 0
 0 -> 1 = 4
