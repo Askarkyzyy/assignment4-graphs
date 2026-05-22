@@ -213,9 +213,11 @@ The structure of the graph affects traversal order and performance significantly
 
 ## Output Example
 
+```text
 Shortest distances from vertex 0:
-0 -> 0 = 0
-0 -> 1 = 4
-0 -> 2 = 3
-0 -> 3 = 6
-0 -> 4 = 5
+
+Vertex 0 → 0 = 0  
+Vertex 0 → 1 = 4  
+Vertex 0 → 2 = 3  
+Vertex 0 → 3 = 6  
+Vertex 0 → 4 = 5  
