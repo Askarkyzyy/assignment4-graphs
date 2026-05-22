@@ -3,9 +3,9 @@ import java.util.*;
 public class Graph {
 
     private int V;
-    private LinkedList<Integer>[] adj;
 
-    // constructor
+    private LinkedList<Edge>[] adj;
+
     public Graph(int vertices) {
 
         V = vertices;
@@ -13,89 +13,115 @@ public class Graph {
         adj = new LinkedList[V];
 
         for (int i = 0; i < V; i++) {
+
             adj[i] = new LinkedList<>();
         }
     }
 
-    public void addVertex(Vertex v) {
+    public void addEdge(int from, int to, int weight) {
 
+        Vertex source = new Vertex(from);
+        Vertex destination = new Vertex(to);
+
+        adj[from].add(new Edge(source, destination, weight));
+
+        // undirected graph
+        adj[to].add(new Edge(destination, source, weight));
     }
 
-    public void addEdge(int from, int to) {
-
-        adj[from].add(to);
-        adj[to].add(from);
-    }
-
-    // adjacency list
     public void printGraph() {
 
         for (int i = 0; i < V; i++) {
 
             System.out.print("AdjList[" + i + "]: ");
 
-            for (int neighbor : adj[i]) {
-                System.out.print(neighbor + " ");
+            for (Edge edge : adj[i]) {
+
+                System.out.print(
+                        edge.getDestination().getId()
+                                + "("
+                                + edge.getWeight()
+                                + ") "
+                );
             }
 
             System.out.println();
         }
     }
 
-    // BFS
-    public void bfs(int start) {
+    // DIJKSTRA
+    public void dijkstra(int start) {
+
+        int[] distance = new int[V];
 
         boolean[] visited = new boolean[V];
 
-        Queue<Integer> queue = new LinkedList<>();
+        Arrays.fill(distance, Integer.MAX_VALUE);
 
-        visited[start] = true;
+        distance[start] = 0;
 
-        queue.add(start);
+        for (int i = 0; i < V - 1; i++) {
 
-        while (!queue.isEmpty()) {
+            int u = findMinDistance(distance, visited);
 
-            int current = queue.poll();
+            visited[u] = true;
 
-            System.out.print(current + " ");
+            for (Edge edge : adj[u]) {
 
-            for (int neighbor : adj[current]) {
+                int v = edge.getDestination().getId();
 
-                if (!visited[neighbor]) {
+                int weight = edge.getWeight();
 
-                    visited[neighbor] = true;
+                if (!visited[v]
+                        && distance[u] != Integer.MAX_VALUE
+                        && distance[u] + weight < distance[v]) {
 
-                    queue.add(neighbor);
+                    distance[v] = distance[u] + weight;
                 }
             }
         }
 
-        System.out.println();
+        printDijkstra(distance, start);
     }
 
-    // DFS
-    public void dfs(int start) {
+    private int findMinDistance(int[] distance,
+                                boolean[] visited) {
 
-        boolean[] visited = new boolean[V];
+        int min = Integer.MAX_VALUE;
 
-        dfsHelper(start, visited);
+        int minIndex = -1;
 
-        System.out.println();
-    }
+        for (int i = 0; i < V; i++) {
 
-    // recursive DFS
-    private void dfsHelper(int vertex, boolean[] visited) {
+            if (!visited[i]
+                    && distance[i] < min) {
 
-        visited[vertex] = true;
+                min = distance[i];
 
-        System.out.print(vertex + " ");
-
-        for (int neighbor : adj[vertex]) {
-
-            if (!visited[neighbor]) {
-
-                dfsHelper(neighbor, visited);
+                minIndex = i;
             }
+        }
+
+        return minIndex;
+    }
+
+    private void printDijkstra(int[] distance,
+                               int start) {
+
+        System.out.println(
+                "\nShortest distances from vertex "
+                        + start + ":"
+        );
+
+        for (int i = 0; i < V; i++) {
+
+            System.out.println(
+                    start
+                            + " -> "
+                            + i
+                            + " = "
+                            + distance[i]
+            );
         }
     }
 }

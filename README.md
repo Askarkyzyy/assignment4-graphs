@@ -7,12 +7,13 @@ This project demonstrates graph representation and traversal algorithms in Java.
 The graph is implemented using an adjacency list structure.  
 Each graph contains vertices (nodes) and edges (connections between nodes).
 
-The project includes two graph traversal algorithms:
+The project includes three main algorithms:
 
 - Breadth-First Search (BFS)
 - Depth-First Search (DFS)
+- Dijkstra’s Algorithm (Bonus Task)
 
-The program also measures execution time for graphs of different sizes.
+The program also measures execution time for graph traversal experiments.
 
 ---
 
@@ -30,14 +31,13 @@ The graph in this project is undirected.
 
 The adjacency list representation stores neighbors for each vertex.
 
-
 ---
 
 # Class Descriptions
 
 ## Vertex Class
 
-The Vertex class represents a graph node.
+Represents a graph node.
 
 Fields:
 - id
@@ -51,11 +51,12 @@ Methods:
 
 ## Edge Class
 
-The Edge class represents a connection between two vertices.
+Represents a connection between two vertices.
 
 Fields:
 - source
 - destination
+- weight (for Dijkstra bonus task)
 
 Methods:
 - constructor
@@ -66,7 +67,7 @@ Methods:
 
 ## Graph Class
 
-The Graph class stores the graph using an adjacency list.
+Stores the graph using an adjacency list.
 
 Methods:
 - addVertex()
@@ -74,15 +75,15 @@ Methods:
 - printGraph()
 - bfs()
 - dfs()
+- dijkstra(int start)
 
-The class also handles graph traversal operations.
-
+The class handles graph traversal and shortest path computation.
 
 ---
 
 ## Experiment Class
 
-The Experiment class performs traversal tests and measures execution time using System.nanoTime().
+Performs traversal tests and measures execution time using System.nanoTime().
 
 Methods:
 - runTraversals()
@@ -93,45 +94,61 @@ Methods:
 
 # BFS Algorithm
 
-Breadth-First Search (BFS) explores the graph level by level.
+Breadth-First Search explores the graph level by level.
 
-The algorithm uses a Queue data structure.
+Uses a Queue data structure.
 
 Steps:
 1. Start from a selected vertex
-2. Mark the vertex as visited
-3. Add neighbors to the queue
-4. Repeat until the queue becomes empty
-
-Use Cases:
-- shortest path
-- social networks
-- navigation systems
+2. Mark as visited
+3. Visit neighbors level by level
+4. Continue until queue is empty
 
 Time Complexity:
 O(V + E)
+
+Use Cases:
+- shortest path in unweighted graphs
+- social networks
+- routing systems
 
 ---
 
 # DFS Algorithm
 
-Depth-First Search (DFS) explores the graph deeply before backtracking.
+Depth-First Search explores the graph deeply before backtracking.
 
-The algorithm uses recursion (stack behavior).
+Uses recursion (stack behavior).
 
 Steps:
-1. Start from a selected vertex
-2. Visit the vertex
-3. Recursively visit unvisited neighbors
+1. Start from a vertex
+2. Visit node
+3. Recursively visit neighbors
 4. Backtrack when needed
-
-Use Cases:
-- maze solving
-- cycle detection
-- topological sorting
 
 Time Complexity:
 O(V + E)
+
+Use Cases:
+- cycle detection
+- maze solving
+- topological sorting
+
+---
+
+# Dijkstra’s Algorithm (Bonus Task)
+
+Finds the shortest path from a starting vertex to all other vertices in a weighted graph.
+
+Steps:
+1. Start from source vertex
+2. Pick the unvisited vertex with smallest distance
+3. Update distances to neighbors
+4. Repeat until all vertices are processed
+
+Time Complexity:
+- O(V²) using arrays and simple loops
+- No priority queue (min-heap) used
 
 ---
 
@@ -147,43 +164,22 @@ O(V + E)
 
 # Analysis
 
-As the graph size increases, execution time also increases.
+As graph size increases, execution time also increases.
 
-Both BFS and DFS have time complexity O(V + E), which matches the experimental results.
+Both BFS and DFS follow O(V + E) complexity.
 
-DFS was faster in some experiments because recursion produced less overhead than queue operations.
+DFS was sometimes faster due to lower overhead of recursion compared to queue operations.
 
-The structure of the graph affects traversal order.  
-In branching graphs, BFS and DFS produce different traversal paths.
-
-BFS is preferred when the shortest path is required.
-
-DFS limitations:
-- may cause stack overflow
-- does not guarantee shortest path
-
+Graph structure affects traversal order and performance.
 
 ---
 
-## Screenshots
+# Dijkstra Output Example
 
-### Graph Structure
-![Graph Structure](docs/screenshots/graph-structure.png)
-
-### BFS and DFS (Small Graph)
-![BFS DFS](docs/screenshots/bfs-dfs-small.png)
-
-### Performance Tests
-![Performance](docs/screenshots/performance-tests.png)
-
----
-
-# Reflection
-
-This assignment helped me understand graph structures and traversal algorithms.
-
-I learned the difference between BFS and DFS and how adjacency lists work.
-
-One challenge was understanding traversal logic and recursion in DFS.
-
-The experiments also showed how graph size affects algorithm performance.
+```text
+Shortest distances from vertex 0:
+0 -> 0 = 0
+0 -> 1 = 4
+0 -> 2 = 3
+0 -> 3 = 6
+0 -> 4 = 5
